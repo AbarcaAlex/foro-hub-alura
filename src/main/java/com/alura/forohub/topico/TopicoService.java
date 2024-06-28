@@ -34,4 +34,12 @@ public class TopicoService {
         Page<DatosMostrarTopico> topicos = topicoRepository.findAll(pageable).map(DatosMostrarTopico::new);
         return topicos;
     }
+
+    public DatosMostrarTopico buscarUnTopicoPorId(Long id){
+        if (!topicoRepository.findById(id).isPresent()) {
+            throw new RuntimeException("No se encontro el topico");
+        }
+        DatosMostrarTopico dato = new DatosMostrarTopico(topicoRepository.findById(id).get());
+        return dato;
+    }
 }

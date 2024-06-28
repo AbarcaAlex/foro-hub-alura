@@ -8,8 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.alura.forohub.topico.DatosMostrarTopico;
 import com.alura.forohub.topico.DatosTopico;
@@ -20,11 +20,13 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 
 
-@Controller
+
+@RestController
 @RequestMapping("/topicos")
 public class TopicoController {
     @Autowired
@@ -38,8 +40,13 @@ public class TopicoController {
     
     @GetMapping
     public ResponseEntity<Page<DatosMostrarTopico>> mostrarTodosLosTopicos(@PageableDefault(page = 0,size = 10,sort = "fecha", direction = Direction.ASC) Pageable pageable) {
-        Page<DatosMostrarTopico> topicos = service.BuscarTodosLostopicos(pageable);
-        return ResponseEntity.ok(topicos);
+        return ResponseEntity.ok(service.BuscarTodosLostopicos(pageable));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DatosMostrarTopico> mostrarUnTopico(@PathVariable Long id) {
+        return ResponseEntity.ok(service.buscarUnTopicoPorId(id));
+    }
+    
     
 }
