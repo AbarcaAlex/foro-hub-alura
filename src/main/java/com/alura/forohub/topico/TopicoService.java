@@ -1,9 +1,13 @@
 package com.alura.forohub.topico;
 
+import java.net.URI;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.alura.forohub.usuario.Usuario;
 import com.alura.forohub.usuario.UsuarioRepository;
@@ -15,13 +19,19 @@ public class TopicoService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public Topico RegistrarNuevoTopico(DatosTopico datosTopico){
+    public URI RegistrarNuevoTopico(DatosTopico datosTopico){
         if (!usuarioRepository.findById(datosTopico.autor()).isPresent()) {
             throw new RuntimeException("No se encontro al usuario");
         }
         Usuario usuario = usuarioRepository.findById(datosTopico.autor()).get();
         Topico topico = new Topico(null, datosTopico.titulo(), datosTopico.mensaje(), LocalDateTime.now(), "Sin respuestas", usuario);
         topicoRepository.save(topico);
-        return topico;
+        URI uri = UriComponentsBuilder.fromPath("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
+        return uri;
+    }
+
+    public Page<DatosMostrarTopico> BuscarTodosLostopicos(Pageable pageable){
+        Page<DatosMostrarTopico> topicos = topicoRepository.findAll(pageable).map(DatosMostrarTopico::new);
+        return topicos;
     }
 }
