@@ -54,4 +54,11 @@ public class TopicoService {
         topicoActualizado.actualizarDatos(datosTopicoActualizado);
         return new DatosMostrarTopico(topicoActualizado);
     }
+
+    public void borrarTopico(Long id){
+        if (!topicoRepository.existsById(id)) {
+            throw new RuntimeException("No se encontro el topico");
+        }
+        topicoRepository.deleteById(id);
+    }
 }

@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,10 +16,12 @@ import com.alura.forohub.topico.dto.DatosMostrarTopico;
 import com.alura.forohub.topico.dto.DatosTopicoActualizado;
 import com.alura.forohub.topico.dto.DatosTopico;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -56,6 +57,14 @@ public class TopicoController {
     @Transactional
     public ResponseEntity<DatosMostrarTopico> actualizarTopico(@PathVariable Long id, @RequestBody @Valid DatosTopicoActualizado datos) {
         return ResponseEntity.ok(service.actualizarTopico(id, datos));
+    }
+
+    @SuppressWarnings("rawtypes")
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity borrarTopico(@PathVariable Long id){
+        service.borrarTopico(id);
+        return ResponseEntity.ok().build();
     }
     
 }
