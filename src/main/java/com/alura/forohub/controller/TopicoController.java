@@ -8,12 +8,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alura.forohub.topico.DatosMostrarTopico;
-import com.alura.forohub.topico.DatosTopico;
 import com.alura.forohub.topico.TopicoService;
+import com.alura.forohub.topico.dto.DatosMostrarTopico;
+import com.alura.forohub.topico.dto.DatosTopicoActualizado;
+import com.alura.forohub.topico.dto.DatosTopico;
 
 import jakarta.validation.Valid;
 
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 
 
@@ -48,5 +52,10 @@ public class TopicoController {
         return ResponseEntity.ok(service.buscarUnTopicoPorId(id));
     }
     
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<DatosMostrarTopico> actualizarTopico(@PathVariable Long id, @RequestBody @Valid DatosTopicoActualizado datos) {
+        return ResponseEntity.ok(service.actualizarTopico(id, datos));
+    }
     
 }

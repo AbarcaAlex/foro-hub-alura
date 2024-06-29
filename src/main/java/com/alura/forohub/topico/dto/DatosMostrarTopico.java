@@ -1,6 +1,8 @@
-package com.alura.forohub.topico;
+package com.alura.forohub.topico.dto;
 
 import java.time.LocalDateTime;
+
+import com.alura.forohub.topico.Topico;
 
 public record DatosMostrarTopico(
     String titulo,

@@ -2,6 +2,7 @@ package com.alura.forohub.topico;
 
 import java.time.LocalDateTime;
 
+import com.alura.forohub.topico.dto.DatosTopicoActualizado;
 import com.alura.forohub.usuario.Usuario;
 
 import jakarta.persistence.Column;
@@ -38,4 +39,10 @@ public class Topico {
     @JoinColumn(name = "autor")
     private Usuario autor;
 
+    public void actualizarDatos(DatosTopicoActualizado datosTopicoActualizado){
+        this.titulo=datosTopicoActualizado.titulo();
+        this.mensaje=datosTopicoActualizado.mensaje();
+        this.estado="Actualizado";
+        this.fecha=LocalDateTime.now();
+    }
 }

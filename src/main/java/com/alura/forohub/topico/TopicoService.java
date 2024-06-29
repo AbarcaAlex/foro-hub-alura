@@ -9,6 +9,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.alura.forohub.topico.dto.DatosMostrarTopico;
+import com.alura.forohub.topico.dto.DatosTopico;
+import com.alura.forohub.topico.dto.DatosTopicoActualizado;
 import com.alura.forohub.usuario.Usuario;
 import com.alura.forohub.usuario.UsuarioRepository;
 
@@ -24,7 +27,7 @@ public class TopicoService {
             throw new RuntimeException("No se encontro al usuario");
         }
         Usuario usuario = usuarioRepository.findById(datosTopico.autor()).get();
-        Topico topico = new Topico(null, datosTopico.titulo(), datosTopico.mensaje(), LocalDateTime.now(), "Sin respuestas", usuario);
+        Topico topico = new Topico(null, datosTopico.titulo(), datosTopico.mensaje(), LocalDateTime.now(), "Creado", usuario);
         topicoRepository.save(topico);
         URI uri = UriComponentsBuilder.fromPath("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
         return uri;
@@ -41,5 +44,14 @@ public class TopicoService {
         }
         DatosMostrarTopico dato = new DatosMostrarTopico(topicoRepository.findById(id).get());
         return dato;
+    }
+
+    public DatosMostrarTopico actualizarTopico(Long id, DatosTopicoActualizado datosTopicoActualizado){
+        if (!topicoRepository.existsById(id)) {
+            throw new RuntimeException("No se encontro el topico");
+        }
+        Topico topicoActualizado = topicoRepository.findById(id).get();
+        topicoActualizado.actualizarDatos(datosTopicoActualizado);
+        return new DatosMostrarTopico(topicoActualizado);
     }
 }
