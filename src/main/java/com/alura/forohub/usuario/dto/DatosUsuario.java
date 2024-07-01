@@ -1,4 +1,4 @@
-package com.alura.forohub.usuario;
+package com.alura.forohub.usuario.dto;
 
 public record DatosUsuario(
     String nombre,
