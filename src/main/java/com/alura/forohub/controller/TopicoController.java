@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alura.forohub.topico.TopicoService;
 import com.alura.forohub.topico.dto.DatosMostrarTopico;
 import com.alura.forohub.topico.dto.DatosTopicoActualizado;
+
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 import com.alura.forohub.topico.dto.DatosTopico;
 
 import jakarta.transaction.Transactional;
@@ -26,11 +29,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
-
-
-
-
-
+@SecurityRequirement(name = "bearer token")
 @RestController
 @RequestMapping("/topicos")
 public class TopicoController {

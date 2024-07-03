@@ -6,6 +6,7 @@ import com.alura.forohub.usuario.UsuarioService;
 import com.alura.forohub.usuario.dto.DatosMostrarUsuario;
 import com.alura.forohub.usuario.dto.DatosUsuario;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,11 +41,13 @@ public class UsuarioController {
         return ResponseEntity.created(uri).build();
     }
     
+    @SecurityRequirement(name = "bearer token")
     @GetMapping
     public ResponseEntity<Page<DatosMostrarUsuario>> listarTodosLosUsuarios(@PageableDefault(size = 5, page = 0, sort = "nombre", direction = Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(usuarioService.buscarTodosLosUsuarios(pageable));
     }
 
+    @SecurityRequirement(name = "bearer token")
     @GetMapping("/{id}")
     public ResponseEntity<DatosMostrarUsuario> getMethodName(@PathVariable Long id) {
         return ResponseEntity.ok(usuarioService.buscarUnUsuario(id));
